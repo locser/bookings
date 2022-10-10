@@ -15,25 +15,8 @@
     <!-- Customize alert: https://github.com/jaredreich/notie-->
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
 
-    <style>
-        .my-footer {
-            height: 5em;
-            background-color: #163b65;
-            margin-top: 1.5em;
-            padding: 1em;
-            color: white;
-            font-size: 80%;
-        }
+    <link rel="stylesheet" href="./static/css/style.css">
 
-        .redText {
-            color: red;
-        }
-
-        /* override styles here */
-        .notie-container {
-            box-shadow: none;
-        }
-    </style>
 
 </head>
 
@@ -102,14 +85,14 @@
                 <div class="row">
                     <div class="col">
                         <div class="row" id="reservation-dates">
-                            <div class="col-md-1">
+                            <div class="col-md-1 text-center">
                                 <span>From:</span>
                             </div>
                             <div class="col-md-5">
                                 <input required type="text" class="form-control" type="text" name="start"
                                     placeholder="Arrival">
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 text-center">
                                 <span>To:</span>
                             </div>
                             <div class="col-md-5">
@@ -136,6 +119,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <footer class="my-footer">
         <div class="row">
@@ -169,8 +155,8 @@
 
 
     <script>
-        console.log("I am printing from javascript");
-
+        let attention = Prompt();
+    
         (function () {
             'use strict';
             window.addEventListener('load', function () {
@@ -188,61 +174,156 @@
                 });
             }, false);
         })();
-
+    
         document.getElementById("colorButton").addEventListener("click", function () {
-            // notify("this is my message", "error")
-            notifyModal("title", "<em>notify Modal</em>", "success", "My text")
-
-//             Swal.fire({
-//   title: 'Error!',
-//   text: 'Do you want to continue',
-//   icon: 'error',
-//   confirmButtonText: 'Cool'
-// })
+            let html = `
+            <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-row" id="reservation-dates-modal">
+                            <div class="col">
+                                <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                            </div>
+                            <div class="col">
+                                <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </form>
+            `;
+            attention.custom({
+                title: 'Choose your dates',
+                msg: html,
+            });
         })
-
+    
         const elem = document.getElementById('reservation-dates');
-        const rangepicker = new DateRangePicker(elem, {
+        const rangePicker = new DateRangePicker(elem, {
             format: "dd-mm-yyyy",
         });
-
+    
         function notify(msg, msgType) {
             notie.alert({
                 type: msgType,
                 text: msg,
             })
         }
-
-        function notifyModal(title, text, icon, confirmButtonText){
+    
+        function notifyModal(title, text, icon, confirmationButtonText) {
             Swal.fire({
-                title:title,
+                title: title,
                 html: text,
                 icon: icon,
-                confirmButtonText: confirmButtonText
+                confirmButtonText: confirmationButtonText
             })
         }
-
-        // function alertSuccess(msg) {
-        //     notie.alert({
-        //     type: 'success', // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
-        //     text: msg,
-        //     })
-        // }
-
-        // function alertError(msg) {
-        //     notie.alert({
-        //     type: 'error', // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
-        //     text: msg,
-        //     })
-        // }
-
-        // function alertWarning(msg) {
-        //     notie.alert({
-        //     type: 'warning', // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
-        //     text: msg,
-        //     })
-        // }
+    
+        function Prompt() {
+            let toast = function (c) {
+                const{
+                    msg = '',
+                    icon = 'success',
+                    position = 'top-end',
+    
+                } = c;
+    
+                const Toast = Swal.mixin({
+                    toast: true,
+                    title: msg,
+                    position: position,
+                    icon: icon,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+    
+                Toast.fire({})
+            }
+    
+            let success = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = "",
+                } = c
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: title,
+                    text: msg,
+                    footer: footer,
+                })
+    
+            }
+    
+            let error = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = "",
+                } = c
+    
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: msg,
+                    footer: footer,
+                })
+    
+            }
+    
+            async function custom(c) {
+                const {
+                    msg = "",
+                    title = "",
+                } = c;
+    
+                const { value: formValues } = await Swal.fire({
+                    title: title,
+                    html: msg,
+                    backdrop: false,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    willOpen: () => {
+                        const elem = document.getElementById("reservation-dates-modal");
+                        const rp = new DateRangePicker(elem, {
+                            format: 'dd-mm-yyyy',
+                            showOnFocus: true,
+                        })
+                    },
+                    didOpen: () => {
+                        document.getElementById("start").removeAttribute("disabled");
+                        document.getElementById("end").removeAttribute("disabled");
+                    },
+                    preConfirm: () => {
+                        return [
+                            document.getElementById('start').value,
+                            document.getElementById('end').value
+                        ]
+                    },
+                })
+    
+                if (formValues) {
+                    Swal.fire(JSON.stringify(formValues))
+                }
+            }
+    
+            return {
+                toast: toast,
+                success: success,
+                error: error,
+                custom: custom,
+            }
+        }
+    
     </script>
-</body>
-
-</html>
+    
+    </body>
+    
+    </html>
