@@ -5,8 +5,8 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/locser/bookings/pkg/config"
-	"github.com/locser/bookings/pkg/handler"
+	"github.com/locser/bookings/internal/config"
+	"github.com/locser/bookings/internal/handler"
 )
 
 //go get github.com/bmizerany/pat to download

@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/locser/bookings/pkg/config"
-	"github.com/locser/bookings/pkg/models"
-	"github.com/locser/bookings/pkg/render"
+	"github.com/locser/bookings/internal/config"
+	"github.com/locser/bookings/internal/models"
+	"github.com/locser/bookings/internal/render"
 )
 
 // Repo the repository used by the handlers

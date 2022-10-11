@@ -1,0 +1,8 @@
+07.10.2022\
+https://www.udemy.com/course/building-modern-web-applications-with-go/learn/lecture/32935362#content
+
+06.10.2022
+section 26: concurrency
+https://www.udemy.com/course/master-go-programming-complete-golang-bootcamp/learn/lecture/16608328#content
+
+
