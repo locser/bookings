@@ -20,12 +20,13 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
-	//
+	// what am I going to put in the session
 	gob.Register(models.Reservation{})
 
 	// change this to true when in production
 	app.InProduction = false
 
+	// set up the session
 	session = scs.New()
 	session.Lifetime = 12 * time.Hour
 	session.Cookie.Persist = true
@@ -49,13 +50,12 @@ func main() {
 
 	fmt.Println(fmt.Sprintf("Starting web app on port localhost" + portNumber))
 
-	// _ = http.ListenAndServe(portNumber, nil)
-
 	srv := &http.Server{
 		Addr:    portNumber,
 		Handler: routes(&app),
 	}
 	err = srv.ListenAndServe()
-	log.Fatal(err)
-
+	if err != nil {
+		log.Fatal(err)
+	}
 }
