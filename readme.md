@@ -8,3 +8,4 @@ The repository for [Building Modern Web Applications with Go](https://www.udemy.
 - Uses [nosurf](github.com/justinas/nosurf)
 
 - Uses [sweetalert2](sweetalert2.github.io/#examples)
+- Uses [Govalidator](https://github.com/asaskevich/govalidator)
