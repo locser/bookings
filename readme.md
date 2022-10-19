@@ -9,3 +9,8 @@ The repository for [Building Modern Web Applications with Go](https://www.udemy.
 
 - Uses [sweetalert2](sweetalert2.github.io/#examples)
 - Uses [Govalidator](https://github.com/asaskevich/govalidator)
+
+How To Run Test:
+
+- Test main : cd /cmd/web  -> go test -v
+- Test Handler: cd /bookings/handler/ -> go test -v 
