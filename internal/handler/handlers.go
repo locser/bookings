@@ -2,14 +2,12 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/locser/bookings/internal/config"
 	"github.com/locser/bookings/internal/forms"
-	"github.com/locser/bookings/internal/helpers"
 	"github.com/locser/bookings/internal/models"
 	"github.com/locser/bookings/internal/render"
 )
@@ -63,11 +61,9 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 
 // PostReservation handles the posting of a reservation form
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
-	// err := r.ParseForm()
 	err := r.ParseForm()
-	err = errors.New("This is an error message")
 	if err != nil {
-		helpers.ServerError(w, err)
+		log.Println(err)
 		return
 	}
 
@@ -82,9 +78,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	form.Required("first_name", "last_name", "email")
 	form.MinLength("first_name", 3, r)
-	form.MinLength("last_name", 3, r)
 	form.IsEmail("email")
-	// form.Has("first_name", r)
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
@@ -96,12 +90,12 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	} else {
-		m.App.Session.Put(r.Context(), "reservation", reservation)
-		http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
+		// m.App.Session.Put(r.Context(), "reservation", reservation)
+		// http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 	}
 
-	// m.App.Session.Put(r.Context(), "reservation", reservation)
-	// http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 // Generals renders the room page

@@ -7,8 +7,7 @@ import (
 	"github.com/locser/bookings/internal/config"
 )
 
-//go get github.com/bmizerany/pat to download
-
+// go get github.com/bmizerany/pat to download
 func TestRoutes(t *testing.T) {
 
 	var app config.AppConfig
